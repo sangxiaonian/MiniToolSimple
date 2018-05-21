@@ -1,7 +1,6 @@
 package sang.com.minitools;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -12,15 +11,14 @@ import android.graphics.RectF;
 import android.graphics.Xfermode;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-
-import java.lang.ref.WeakReference;
+import android.widget.FrameLayout;
 
 /**
  * 作者： ${PING} on 2018/5/21.
- * 圆角ImageView
+ * 圆角 Framlayout
  */
 
-public class CircularImageView extends android.support.v7.widget.AppCompatImageView {
+public class CirculaViewFramlayout extends FrameLayout {
 
     /**
      * 是否显示边框
@@ -62,15 +60,15 @@ public class CircularImageView extends android.support.v7.widget.AppCompatImageV
 
     private Xfermode xfermode;
 
-    public CircularImageView(Context context) {
+    public CirculaViewFramlayout(Context context) {
         this(context, null, 0);
     }
 
-    public CircularImageView(Context context, @Nullable AttributeSet attrs) {
+    public CirculaViewFramlayout(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public CircularImageView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public CirculaViewFramlayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
         initView(context, attrs);
@@ -108,6 +106,28 @@ public class CircularImageView extends android.support.v7.widget.AppCompatImageV
             }
         }
         setRadius(radius, radius, radius, radius);
+    }
+
+    @Override
+    protected void dispatchDraw(Canvas canvas) {
+        canvas.saveLayer(rectF, mPaint, Canvas.ALL_SAVE_FLAG);
+        super.dispatchDraw(canvas);
+        mPaint.setXfermode(xfermode);
+        mPaint.setStrokeWidth(borderWidth);
+
+        mPaint.setStyle(Paint.Style.FILL);
+        initRadios(getWidth(), getHeight(),borderPath,borderWidth/2);
+        canvas.drawPath(borderPath, mPaint);
+        mPaint.setXfermode(null);
+
+        if (showBorder) {
+            mPaint.setColor(borderColor);
+            mPaint.setStyle(Paint.Style.STROKE);
+            initRadios(getWidth(), getHeight(),borderPath,borderWidth/2);
+            canvas.drawPath(borderPath, mPaint);
+        }
+
+        canvas.restore();
     }
 
     /**
@@ -163,28 +183,6 @@ public class CircularImageView extends android.support.v7.widget.AppCompatImageV
         rectF = new RectF(0, 0, w, h);
     }
 
-    @Override
-    protected void onDraw(Canvas canvas) {
-        canvas.saveLayer(rectF, mPaint, Canvas.ALL_SAVE_FLAG);
-        super.onDraw(canvas);
-        mPaint.setXfermode(xfermode);
-        mPaint.setStrokeWidth(borderWidth);
-
-        mPaint.setStyle(Paint.Style.FILL);
-        initRadios(getWidth(), getHeight(),borderPath,borderWidth/2);
-        canvas.drawPath(borderPath, mPaint);
-        mPaint.setXfermode(null);
-
-        if (showBorder) {
-            mPaint.setColor(borderColor);
-            mPaint.setStyle(Paint.Style.STROKE);
-            initRadios(getWidth(), getHeight(),borderPath,borderWidth/2);
-            canvas.drawPath(borderPath, mPaint);
-        }
-
-        canvas.restore();
-
-    }
 
     private void initRadios(int w, int h,Path borderPath,int borderWidth) {
         borderPath.reset();

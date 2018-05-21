@@ -1,4 +1,6 @@
-package sang.com.minitools;
+package sang.com.minitools.utlis;
+
+import android.util.Log;
 
 public class JLog {
     /**
@@ -6,46 +8,62 @@ public class JLog {
      */
     public static String tag = "JLog";
 
+    public static boolean printLog=true;
 
     public static void i(String content) {
-        JLog.i(tag, getLogInfo() + content);
+        i(tag,content);
+
     }
 
     public static void i(String tag, String content) {
-        JLog.i(tag, getLogInfo() + content);
+        if (printLog) {
+            Log.i(tag, getLogInfo() + content);
+        }
     }
 
     public static void d(String content) {
-        JLog.d(tag, getLogInfo() + content);
+        d(tag, content);
+
     }
 
     public static void d(String tag, String content) {
-        JLog.d(tag, getLogInfo() + content);
+        if (printLog) {
+            Log.d(tag, getLogInfo() + content);
+        }
     }
 
     public static void e(String content) {
-        JLog.e(tag, getLogInfo() + content);
+        e(tag, content);
+
     }
 
     public static void e(String tag, String content) {
+        if (printLog) {
+            Log.e(tag, getLogInfo() + content);
+        }
 
-        JLog.e(tag, getLogInfo() + content);
     }
 
     public static void v(String content) {
-        JLog.v(tag, getLogInfo() + content);
+        v(tag,content);
+
     }
 
     public static void v(String tag, String content) {
-        JLog.v(tag, getLogInfo() + content);
+        if (printLog) {
+            Log.v(tag, getLogInfo() + content);
+        }
+
     }
 
     public static void w(String content) {
-        JLog.w(tag, getLogInfo() + content);
+        w(tag, content);
     }
 
     public static void w(String tag, String content) {
-        JLog.w(tag, getLogInfo() + content);
+        if (printLog) {
+            Log.w(tag, getLogInfo() + content);
+        }
     }
 
     private static String getLogInfo() {

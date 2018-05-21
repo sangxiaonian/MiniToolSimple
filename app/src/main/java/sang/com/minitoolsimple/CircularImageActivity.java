@@ -12,6 +12,7 @@ import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import sang.com.minitools.CirculaViewFramlayout;
 import sang.com.minitools.CircularImageView;
 
 public class CircularImageActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
@@ -32,6 +33,9 @@ public class CircularImageActivity extends AppCompatActivity implements SeekBar.
     SeekBar sbRight;
     @BindView(R.id.img)
     CircularImageView img;
+    @BindView(R.id.img1)
+    CirculaViewFramlayout img1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,18 +49,21 @@ public class CircularImageActivity extends AppCompatActivity implements SeekBar.
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 img.setShowBorder(isChecked);
-                ;
+                img1.setShowBorder(isChecked);
                 switch (new Random().nextInt(3)) {
                     case 0:
                         img.setBorderColor(Color.RED);
+                        img1.setBorderColor(Color.RED);
 
                         break;
                     case 1:
                         img.setBorderColor(Color.BLUE);
+                        img1.setBorderColor(Color.BLUE);
 
                         break;
                     case 2:
                         img.setBorderColor(Color.GRAY);
+                        img1.setBorderColor(Color.GRAY);
 
                         break;
                 }
@@ -70,13 +77,16 @@ public class CircularImageActivity extends AppCompatActivity implements SeekBar.
         switch (seekBar.getId()) {
             case R.id.sb_radio:
                 img.setRadius(progress);
+                img1.setRadius(progress);
                 break;
             case R.id.sb_left:
                 img.setRadius(progress, 0, 0, 0);
+                img1.setRadius(progress, 0, 0, 0);
                 break;
 
             case R.id.sb_right:
                 img.setBorderWidth(progress);
+                img1.setBorderWidth(progress);
                 break;
         }
     }

@@ -1,4 +1,4 @@
-package sang.com.minitools;
+package sang.com.minitools.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -11,14 +11,13 @@ import android.graphics.RectF;
 import android.graphics.Xfermode;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.widget.FrameLayout;
 
 /**
  * 作者： ${PING} on 2018/5/21.
- * 圆角 Framlayout
+ * 圆角ImageView
  */
 
-public class CirculaViewFramlayout extends FrameLayout {
+public class CircularImageView extends android.support.v7.widget.AppCompatImageView {
 
     /**
      * 是否显示边框
@@ -53,22 +52,21 @@ public class CirculaViewFramlayout extends FrameLayout {
     protected RectF rectF;
 
 
-
     private Path borderPath;
 
     private Paint mPaint;
 
     private Xfermode xfermode;
 
-    public CirculaViewFramlayout(Context context) {
+    public CircularImageView(Context context) {
         this(context, null, 0);
     }
 
-    public CirculaViewFramlayout(Context context, @Nullable AttributeSet attrs) {
+    public CircularImageView(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public CirculaViewFramlayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public CircularImageView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
         initView(context, attrs);
@@ -99,35 +97,13 @@ public class CirculaViewFramlayout extends FrameLayout {
      * @param radius
      */
     public void setRadius(int radius) {
-        if (getWidth()>0){
+        if (getWidth() > 0) {
             int maxRadio = Math.min(getWidth(), getHeight()) / 2 - borderWidth;
             if (radius > maxRadio) {
                 radius = maxRadio;
             }
         }
         setRadius(radius, radius, radius, radius);
-    }
-
-    @Override
-    protected void dispatchDraw(Canvas canvas) {
-        canvas.saveLayer(rectF, mPaint, Canvas.ALL_SAVE_FLAG);
-        super.dispatchDraw(canvas);
-        mPaint.setXfermode(xfermode);
-        mPaint.setStrokeWidth(borderWidth);
-
-        mPaint.setStyle(Paint.Style.FILL);
-        initRadios(getWidth(), getHeight(),borderPath,borderWidth/2);
-        canvas.drawPath(borderPath, mPaint);
-        mPaint.setXfermode(null);
-
-        if (showBorder) {
-            mPaint.setColor(borderColor);
-            mPaint.setStyle(Paint.Style.STROKE);
-            initRadios(getWidth(), getHeight(),borderPath,borderWidth/2);
-            canvas.drawPath(borderPath, mPaint);
-        }
-
-        canvas.restore();
     }
 
     /**
@@ -139,10 +115,11 @@ public class CirculaViewFramlayout extends FrameLayout {
      * @param leftBottom
      */
     public void setRadius(int leftTop, int rightTop, int rightBottom, int leftBottom) {
-        radiusLeftTop = leftTop;
-        radiusRightTop = rightTop;
-        radiusRightBottom = rightBottom;
-        radiusLeftBottom = leftBottom;
+        int min = Math.min(getWidth(), getHeight());
+        radiusLeftTop = leftTop>min?min:leftTop;
+        radiusRightTop = rightTop>min?min:rightTop;
+        radiusRightBottom = rightBottom>min?min:rightBottom;
+        radiusLeftBottom = leftBottom>min?min:leftBottom;
         postInvalidate();
     }
 
@@ -164,7 +141,7 @@ public class CirculaViewFramlayout extends FrameLayout {
      */
     public void setBorderWidth(int borderWidth) {
         this.borderWidth = borderWidth;
-        postInvalidate();
+        setRadius(radiusLeftTop,radiusRightTop,radiusRightBottom,radiusLeftBottom);
     }
 
     /**
@@ -184,7 +161,30 @@ public class CirculaViewFramlayout extends FrameLayout {
     }
 
 
-    private void initRadios(int w, int h,Path borderPath,int borderWidth) {
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        canvas.saveLayer(rectF, mPaint, Canvas.ALL_SAVE_FLAG);
+        super.onDraw(canvas);
+        mPaint.setXfermode(xfermode);
+        mPaint.setStrokeWidth(borderWidth);
+
+        mPaint.setStyle(Paint.Style.FILL);
+        initRadios(getWidth(), getHeight(), borderPath, borderWidth / 2);
+        canvas.drawPath(borderPath, mPaint);
+        mPaint.setXfermode(null);
+
+        if (showBorder) {
+            mPaint.setColor(borderColor);
+            mPaint.setStyle(Paint.Style.STROKE);
+            canvas.drawPath(borderPath, mPaint);
+        }
+
+        canvas.restore();
+
+    }
+
+    private void initRadios(int w, int h, Path borderPath, int borderWidth) {
         borderPath.reset();
         int left = (int) Math.ceil(borderWidth);
         int top = (int) Math.ceil(borderWidth);
@@ -195,7 +195,7 @@ public class CirculaViewFramlayout extends FrameLayout {
         borderPath.moveTo(left, top + radiusLeftTop);
         rectLeftTop.left = left;
         rectLeftTop.top = top;
-        rectLeftTop.right = radiusRightTop * 2 + left;
+        rectLeftTop.right = radiusLeftTop * 2 + left;
         rectLeftTop.bottom = top + radiusLeftTop * 2;
         borderPath.arcTo(rectLeftTop, 180, 90);
 
@@ -205,16 +205,16 @@ public class CirculaViewFramlayout extends FrameLayout {
         rectRightTop.left = right - radiusRightTop * 2;
         rectRightTop.top = top;
         rectRightTop.right = right;
-        rectRightTop.bottom = top + radiusLeftTop * 2;
+        rectRightTop.bottom = top + radiusRightTop * 2;
         borderPath.arcTo(rectRightTop, 270, 90);
 //
 //        //右下
         borderPath.lineTo(right, bottom - radiusRightBottom);
-        rectRightBottom.left = right - radiusRightTop * 2;
-        rectRightTop.top = bottom - radiusRightBottom * 2;
-        rectRightTop.right = right;
-        rectRightTop.bottom = bottom;
-        borderPath.arcTo(rectRightTop, 360, 90);
+        rectRightBottom.left = right - radiusRightBottom * 2;
+        rectRightBottom.top = bottom - radiusRightBottom * 2;
+        rectRightBottom.right = right;
+        rectRightBottom.bottom = bottom;
+        borderPath.arcTo(rectRightBottom, 360, 90);
 //
 //        //左下
         borderPath.lineTo(left + radiusLeftBottom, bottom);

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--圆形控件 CircularImageView  CirculaViewFramlayout-->
+    <declare-styleable name="CircularView">
+        <!--打开状态背景-->
+        <attr name="openColor" format="color" />
+        <!--关闭状态背景颜色-->
+        <attr name="closeColor" format="color" />
+        <!--圆点颜色-->
+        <attr name="pointColor" format="color" />
+        <!--圆点与边界的间隙-->
+        <attr name="bound_gap" format="dimension" />
+        <!--是否是打开状态-->
+        <attr name="isOpen" format="boolean" />
+        <attr name="boundColor" format="color" />
+    </declare-styleable>
+
+</resources>

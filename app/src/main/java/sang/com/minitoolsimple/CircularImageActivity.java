@@ -12,8 +12,8 @@ import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import sang.com.minitools.CirculaViewFramlayout;
-import sang.com.minitools.CircularImageView;
+import sang.com.minitools.widget.CircularFramlayout;
+import sang.com.minitools.widget.CircularImageView;
 
 public class CircularImageActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
 
@@ -34,7 +34,7 @@ public class CircularImageActivity extends AppCompatActivity implements SeekBar.
     @BindView(R.id.img)
     CircularImageView img;
     @BindView(R.id.img1)
-    CirculaViewFramlayout img1;
+    CircularFramlayout img1;
 
 
     @Override

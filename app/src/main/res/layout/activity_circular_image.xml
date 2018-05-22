@@ -7,20 +7,19 @@
     android:orientation="vertical"
     tools:context="sang.com.minitoolsimple.CircularImageActivity">
 
-    <sang.com.minitools.CircularImageView
+    <sang.com.minitools.widget.CircularImageView
         android:id="@+id/img"
-        android:layout_width="match_parent"
+        android:layout_width="100dp"
         android:layout_height="100dp"
-        android:scaleType="centerCrop"
         android:src="@mipmap/a" />
 
-    <sang.com.minitools.CirculaViewFramlayout
+    <sang.com.minitools.widget.CircularFramlayout
         android:id="@+id/img1"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_marginTop="10dp"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/a">
+        >
+
 
         <ImageView
             android:layout_width="match_parent"
@@ -28,7 +27,7 @@
             android:scaleType="centerCrop"
             android:src="@mipmap/a" />
 
-    </sang.com.minitools.CirculaViewFramlayout>
+    </sang.com.minitools.widget.CircularFramlayout>
 
 
     <CheckBox

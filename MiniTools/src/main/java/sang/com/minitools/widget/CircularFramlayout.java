@@ -1,6 +1,7 @@
 package sang.com.minitools.widget;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -13,9 +14,12 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
+import sang.com.minitools.R;
+import sang.com.minitools.utlis.ConvertUtils;
+
 /**
  * 作者： ${PING} on 2018/5/21.
- * 圆角ImageView
+ * 万能圆角控件，基于Framlayout的ViewGroup ，会对子控件进行圆角截取
  */
 
 public class CircularFramlayout extends FrameLayout{
@@ -77,8 +81,29 @@ public class CircularFramlayout extends FrameLayout{
 
 
     private void initView(Context context, AttributeSet attrs) {
+        borderWidth = ConvertUtils.dip2px(1);
+        borderColor = Color.WHITE;
+
+        if (attrs!=null){
+            TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.CircularView);
+            borderColor = ta.getColor(R.styleable.CircularView_borderColor,Color.WHITE);
+            showBorder = ta.getBoolean(R.styleable.CircularView_showBorder,false);
+            borderWidth = (int) ta.getDimension(R.styleable.CircularView_borderWidth, ConvertUtils.dip2px(1));
+            radiusLeftTop= (int) ta.getDimension(R.styleable.CircularView_radiusLeftTop,0);
+            radiusRightTop=(int) ta.getDimension(R.styleable.CircularView_radiusRightTop,0);
+            radiusRightBottom=(int) ta.getDimension(R.styleable.CircularView_radiusRightBottom,0);
+            radiusLeftBottom=(int) ta.getDimension(R.styleable.CircularView_radiusLeftBottom,0);
+            int radius = (int) ta.getDimension(R.styleable.CircularView_radius, -1);
+            ta.recycle();
+            if (radius>=0){
+                setRadius(radius);
+            }
+        }
+
+
+
+
         //默认为白色
-        borderColor = Color.RED;
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setColor(borderColor);
         borderPath = new Path();
@@ -87,7 +112,6 @@ public class CircularFramlayout extends FrameLayout{
         rectRightTop = new RectF();
         rectRightBottom = new RectF();
         rectLeftBottom = new RectF();
-        borderWidth = 5;
         xfermode = new PorterDuffXfermode(PorterDuff.Mode.DST_IN);
 
     }

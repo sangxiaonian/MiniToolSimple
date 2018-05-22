@@ -2,6 +2,9 @@ package sang.com.minitools.utlis;
 
 import android.util.Log;
 
+/**
+ * 简单的log工具，可以打印出log的具体位置，方便调试
+ */
 public class JLog {
     /**
      * tag

@@ -4,6 +4,9 @@ import android.content.Context;
 import android.widget.Toast;
 
 
+/**
+ * Toast 的简单工具类，防止段时间内多次弹出 Toast 引起Toast长时间存在，不能消失
+ */
 public class ToastUtils {
     private static Toast toast = null;
     private static Context context;

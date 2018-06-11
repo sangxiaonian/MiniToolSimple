@@ -76,7 +76,6 @@ public class CircularImageView extends android.support.v7.widget.AppCompatImageV
 
         initView(context, attrs);
         setRadius(100);
-        setBackgroundColor(Color.WHITE);
     }
 
 
@@ -106,6 +105,7 @@ public class CircularImageView extends android.support.v7.widget.AppCompatImageV
         //默认为白色
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setColor(borderColor);
+
         borderPath = new Path();
 
         rectLeftTop = new RectF();
@@ -189,7 +189,9 @@ public class CircularImageView extends android.support.v7.widget.AppCompatImageV
 
     @Override
     protected void onDraw(Canvas canvas) {
-        canvas.saveLayer(rectF, mPaint, Canvas.ALL_SAVE_FLAG);
+//        int i = canvas.saveLayer(rectF, mPaint,  Canvas.ALL_SAVE_FLAG);
+        setLayerType(LAYER_TYPE_HARDWARE, mPaint);
+        canvas.save();
         super.onDraw(canvas);
         mPaint.setXfermode(xfermode);
         mPaint.setStrokeWidth(borderWidth);
@@ -204,8 +206,8 @@ public class CircularImageView extends android.support.v7.widget.AppCompatImageV
             mPaint.setStyle(Paint.Style.STROKE);
             canvas.drawPath(borderPath, mPaint);
         }
-
         canvas.restore();
+//        canvas.restoreToCount(i);
 
     }
 

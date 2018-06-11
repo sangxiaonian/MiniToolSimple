@@ -76,7 +76,6 @@ public class CircularFramlayout extends FrameLayout{
 
         initView(context, attrs);
         setRadius(100);
-        setBackgroundColor(Color.WHITE);
     }
 
 

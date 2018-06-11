@@ -189,25 +189,26 @@ public class CircularImageView extends android.support.v7.widget.AppCompatImageV
 
     @Override
     protected void onDraw(Canvas canvas) {
-//        int i = canvas.saveLayer(rectF, mPaint,  Canvas.ALL_SAVE_FLAG);
         setLayerType(LAYER_TYPE_HARDWARE, mPaint);
         canvas.save();
         super.onDraw(canvas);
         mPaint.setXfermode(xfermode);
-        mPaint.setStrokeWidth(borderWidth);
 
         mPaint.setStyle(Paint.Style.FILL);
+        //更改path
         initRadios(getWidth(), getHeight(), borderPath, borderWidth / 2);
         canvas.drawPath(borderPath, mPaint);
         mPaint.setXfermode(null);
 
+        //是否绘制边框
         if (showBorder) {
+            mPaint.setStrokeWidth(borderWidth);
             mPaint.setColor(borderColor);
             mPaint.setStyle(Paint.Style.STROKE);
             canvas.drawPath(borderPath, mPaint);
         }
         canvas.restore();
-//        canvas.restoreToCount(i);
+
 
     }
 
